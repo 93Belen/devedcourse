@@ -6,6 +6,7 @@ import formatPrice from "components/util/PricesFormat";
 import {IoAddCircle, IoRemoveCircle} from 'react-icons/io5'
 import basket from 'imgs/shopping-bag.png';
 import { AnimatePresence, motion } from "framer-motion";
+import Checkout from "./Checkout";
 
 
 
@@ -30,6 +31,8 @@ export default function Cart(){
            onClick={(e) => {
                e.stopPropagation()
            }} className="bg-white absolute right-0 top-0 w-1/4 h-screen p-12 overflow-y-scroll text-gray-700">
+                {cartStore.onCheckout === 'cart' && (
+                    <>
                 {cartStore.cart.map((item) => (
                     <motion.div
                     layout
@@ -48,14 +51,19 @@ export default function Cart(){
                         </motion.div>
                     </motion.div>
                 ))}
+                </>
+                )}
                 <motion.div layout>
                 {cartStore.cart.length > 0 && (
                     <>
                         <p>Total {formatPrice(totalPrice)}</p>
-                        <button className="py-2 mt-4 bg-teal-700 w-full rounded-md text-white">Checkout</button>
+                        <button onClick={() => cartStore.setCheckout("checkout")} className="py-2 mt-4 bg-teal-700 w-full rounded-md text-white">
+                        Checkout
+                        </button>
                     </>
                 )}
                 </motion.div>
+                {cartStore.onCheckout === 'checkout' && <Checkout />}
                 <AnimatePresence>
             {!cartStore.cart.length && (
                 <motion.div 
